@@ -1,110 +1,30 @@
-var numComments=numComments||5,avatarSize=avatarSize||60,characters=characters||40,defaultAvatar=defaultAvatar||"http://www.gravatar.com/avatar/?d=mm",moreLinktext=moreLinktext||" More &raquo;
-",showAvatar=(typeof showAvatar==='undefined')?true:showAvatar,showMorelink=(typeof showMorelink==='undefined')?false:showMorelink,roundAvatar=(typeof roundAvatar==='undefined')?true:roundAvatar,hideCredits=(typeof hideCredits==='undefined')?false:roundAvatar;
-function danilrecentcomments(drc)
-	{
-	var commentsHtml;
-	commentsHtml='<ul class="danilrecentcomments">';
-	for(var i=0;
-	i<numComments;
-	i++)
-		{
-		var commentlink,authorName,authorAvatar,avatarClass;
-		if(i==drc.feed.entry.length)break;
-		commentsHtml+="<li>";
-		var entry=drc.feed.entry[i];
-		for(var l=0;
-		l<entry.link.length;
-		l++)
-			{
-			if(entry.link[l].rel=='alternate')
-				{
-				commentlink=entry.link[l].href
-			}
-		}
-		for(var a=0;
-		a<entry.author.length;
-		a++)
-			{
-			authorName=entry.author[a].name.$t;
-			authorAvatar=entry.author[a].gd$image.src
-		}
-		if(authorAvatar.indexOf("/s1600/")!=-1)
-			{
-			authorAvatar=authorAvatar.replace("/s1600/","/s"+avatarSize+"-c/")
-		}
-		else if(authorAvatar.indexOf("/s220/")!=-1)
-			{
-			authorAvatar=authorAvatar.replace("/s220/","/s"+avatarSize+"-c/")
-		}
-		else if(authorAvatar.indexOf("/s512-c/")!=-1&&authorAvatar.indexOf("http:")!=0)
-			{
-			authorAvatar="http:"+authorAvatar.replace("/s512-c/","/s"+avatarSize+"-c/")
-		}
-		else if(authorAvatar.indexOf("blogblog.com/img/b16-rounded.gif")!=-1)
-			{
-			authorAvatar="http://3.bp.blogspot.com/-AaI8-1X32ZM/TxMKLVzQ5BI/AAAAAAAABYY/QYau8ov2blE/s"+avatarSize+"/drc_blogger_logo.png"
-		}
-		else if(authorAvatar.indexOf("blogblog.com/img/openid16-rounded.gif")!=-1)
-			{
-			authorAvatar="http://3.bp.blogspot.com/-9lSeVyNRKx0/TxMKMIqMNuI/AAAAAAAABYc/8iasY0xpLzc/s"+avatarSize+"/drc_openid_logo.png"
-		}
-		else if(authorAvatar.indexOf("blogblog.com/img/blank.gif")!=-1)
-			{
-			if(defaultAvatar.indexOf("gravatar.com")!=-1)
-				{
-				authorAvatar=defaultAvatar+"&s="+avatarSize
-			}
-			else
-				{
-				authorAvatar=defaultAvatar
-			}
-		}
-		else
-			{
-			authorAvatar=authorAvatar
-		}
-		if(showAvatar==true)
-			{
-			if(roundAvatar==true)
-				{
-				avatarClass="avatarRound"
-			}
-			else
-				{
-				avatarClass=""
-			}
-			commentsHtml+="<div class=\"avatarImage "+avatarClass+"\"><img class=\""+avatarClass+"\" src=\""+authorAvatar+"\" alt=\""+authorName+"\" width=\""+avatarSize+"\" height=\""+avatarSize+"\"/></div>"
-		}
-		commentsHtml+="<a href=\""+commentlink+"\">"+authorName+"</a>";
-		var commHTML=entry.content.$t;
-		var commBody=commHTML.replace(/(<([^>]+)>)/ig,"");
-		if(commBody!=""&&commBody.length>characters)
-			{
-			commBody=commBody.substring(0,characters);
-			commBody+="&hellip;
-			";
-			if(showMorelink==true)
-				{
-				commBody+="<a href=\""+commentlink+"\">"+moreLinktext+"</a>"
-			}
-		}
-		else
-			{
-			commBody=commBody
-		}
-		commentsHtml+="<span>"+commBody+"</span>";
-		commentsHtml+="</li>"
-	}
-	commentsHtml+='</ul>';
-	var hideCSS="";
-	if(hideCredits==true)
-		{
-		hideCSS="display:none;
-		"
-	}
-	commentsHtml+="<span style=\"font-size:10px;
-	display:block;
-	text-align:right;
-	"+hideCSS+"\">Widget by<a href=\"http://www.danilrafiqi.xyz/\">Danil Rafiqi</a></span>";
-	document.write(commentsHtml)
-}
+<style type="text/css">
+ul.danil_recent_comments{list-style:none;margin:0;padding:0;}
+.danil_recent_comments li{background:none !important;margin:20px 20px 6px !important;padding:0 0 6px 0 !important;display:block;clear:both;overflow:hidden;list-style:none;}
+.danil_recent_comments li .avatarImage{padding:3px;background:#fefefe;-webkit-box-shadow:0 1px 1px #ccc;-moz-box-shadow:0 1px 1px #ccc;box-shadow:0 1px 1px #ccc;float:left;margin:0 6px 0 0;position:relative;overflow:hidden;}
+.avatarRound{-webkit-border-radius:100px;-moz-border-radius:100px;border-radius:100px;}
+.danil_recent_comments li img{padding:0px;position:relative;overflow:hidden;display:block;}
+.danil_recent_comments li span{margin-top:4px;color: #666;display: block;font-size: 12px;font-style: italic;line-height: 1.4;}
+</style>
+<script type="text/javascript">
+//<![CDATA[
+    // Recent Comments Settings
+    var
+ numComments  = 3,
+ showAvatar  = true,
+ avatarSize  = 40,
+ roundAvatar = true,
+ characters  = 60,
+ defaultAvatar  = "http://2.bp.blogspot.com/-6pCCeOe7wKA/UKRn7f0MK7I/AAAAAAAAB3s/oWt1dVVzc5Y/s1600/gravatar.jpg",
+ hideCredits = no,
+ maxfeeds=10,
+ adminBlog='Muhamad Danil Rafiqi';
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('7 D=D||5,9=9||19,A=A||1a,m=m||"h://W.S.g/16/?d=18",E=E||" 1p &1f;",v=(p v===\'o\')?j:v,z=(p z===\'o\')?Z:z,n=(p n===\'o\')?j:n,M=(p M===\'o\')?Z:n;1l 12(L){7 b;b=\'<Y C="12">\';H(7 i=0;i<D;i++){7 x,y,2,k;4(i==L.14.8.q)1g;b+="<X>";7 8=L.14.8[i];H(7 l=0;l<8.I.q;l++){4(8.I[l].1j==\'1o\'){x=8.I[l].w}}H(7 a=0;a<8.K.q;a++){y=8.K[a].1i.$t;2=8.K[a].1h$1k.N}4(2.f("/O/")!=-1){2=2.u("/O/","/s"+9+"-c/")}e 4(2.f("/T/")!=-1){2=2.u("/T/","/s"+9+"-c/")}e 4(2.f("/U-c/")!=-1&&2.f("h:")!=0){2="h:"+2.u("/U-c/","/s"+9+"-c/")}e 4(2.f("G.g/B/1n-P.J")!=-1){2="h://3.13.Q.g/-1m-1e/17/1c/1b/s"+9+"/15.R"}e 4(2.f("G.g/B/1d-P.J")!=-1){2="h://3.13.Q.g/-1R/1U/1P/1K/s"+9+"/1J.R"}e 4(2.f("G.g/B/1M.J")!=-1){4(m.f("S.g")!=-1){2=m+"&s="+9}e{2=m}}e{2=2}4(v==j){4(n==j){k="1O"}e{k=""}b+="<V C=\\"1T "+k+"\\"><B C=\\""+k+"\\" N=\\""+2+"\\" 1H=\\""+y+"\\" 1w=\\""+9+"\\" 1I=\\""+9+"\\"/></V>"}b+="<a w=\\""+x+"\\">"+y+"</a>";7 11=8.1v.$t;7 6=11.u(/(<([^>]+)>)/1u,"");4(6!=""&&6.q>A){6=6.1r(0,A);6+="&1s;";4(z==j){6+="<a w=\\""+x+"\\">"+E+"</a>"}}e{6=6}b+="<r>"+6+"</r>";b+="</X>"}b+=\'</Y>\';7 F="";4(M==j){F="10:1F;"}b+="<r 1G=\\"1E-1D:1A;10:1B;1C-1S:1z;"+F+"\\">1y 1t<a w=\\"h://W.1x.1L/\\">1Q</a></r>";1N.1q(b)}',62,119,'||authorAvatar||if||commBody|var|entry|avatarSize||commentsHtml|||else|indexOf|com|http||true|avatarClass||defaultAvatar|roundAvatar|undefined|typeof|length|span|||replace|showAvatar|href|commentlink|authorName|showMorelink|characters|img|class|numComments|moreLinktext|hideCSS|blogblog|for|link|gif|author|danil|hideCredits|src|s1600|rounded|blogspot|png|gravatar|s220|s512|div|www|li|ul|false|display|commHTML|danil_recent_comments|bp|feed|danil_blogger_logo|avatar|TxMKLVzQ5BI|mm|60|40|QYau8ov2blE|AAAAAAAABYY|openid16|1X32ZM|raquo|break|gd|name|rel|image|function|AaI8|b16|alternate|More|write|substring|hellip|by |ig|content|width|danilrafiqi|Widget|right|10px|block|text|size|font|none|style|alt|height|danil_openid_logo|8iasY0xpLzc|xyz|blank|document|avatarRound|AAAAAAAABYc|danilrafiqi|9lSeVyNRKx0|align|avatarImage|TxMKMIqMNuI'.split('|'),0,{}))
+//]]>
+
+</script>
+<script type="text/javascript" src="/feeds/comments/default?alt=json&callback=danil_recent_comments&max-results=20"></script>
